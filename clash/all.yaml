@@ -1,0 +1,69 @@
+proxies:
+  - name: "Reality"
+    type: vless
+    server: example.org
+    port: 80
+    udp: true
+    uuid: 6478801f-648c-4410-80c8-769fb9ae4b0b
+    flow: xtls-rprx-vision
+    packet-encoding: xudp
+    tls: true
+    servername: www.bing.com
+    client-fingerprint: chrome
+    skip-cert-verify: true
+    reality-opts:
+      public-key: owt1EdY_o_cfLaPWmmbzK1Ks3LtOPQBhQZdeX-gJyFQ
+      short-id: 0af950dadb424d90
+  - name: "Hysteria2"
+    type: hysteria2
+    server: example.org
+    port: 443
+    password: 6478801f-648c-4410-80c8-769fb9ae4b0b
+    sni: example.org
+    skip-cert-verify: true
+  - name: "Cloudflare"
+    type: vless
+    server: 104.19.0.0
+    port: 443
+    udp: true
+    uuid: 6478801f-648c-4410-80c8-769fb9ae4b0b
+    flow: xtls-rprx-vision
+    packet-encoding: xudp
+    tls: true
+    servername: example.org
+    client-fingerprint: chrome
+    skip-cert-verify: true
+    network: ws
+    ws-opts:
+      path: /
+      headers:
+        Host: example.org
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    proxies:
+      - Reality
+      - Hysteria2
+      - Cloudflare
+rules:
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,PROXY
+dns:
+  enable: true
+  cache-algorithm: arc
+  prefer-h3: false
+  use-hosts: false
+  use-system-hosts: false
+  respect-rules: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  default-nameserver:
+    - 114.114.114.114
+  nameserver:
+    - 114.114.114.114
+  fallback:
+    - https://8.8.8.8/dns-query
+    - https://1.1.1.1/dns-query
+  proxy-server-nameserver:
+    - 114.114.114.114
