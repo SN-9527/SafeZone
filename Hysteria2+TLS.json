@@ -1,0 +1,19 @@
+{
+    "type": "hysteria2",
+    "listen": "::",
+    "listen_port": 443,
+    "users": [
+        {
+            "name": "root",
+            "password": "6478801f-648c-4410-80c8-769fb9ae4b0b"
+        }
+    ],
+    "ignore_client_bandwidth": true,
+    "tls": {
+        "enabled": true,
+        "server_name": "example.org",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/key.pem"
+    },
+    "brutal_debug": false
+}
