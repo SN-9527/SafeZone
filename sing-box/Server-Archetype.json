@@ -1,0 +1,20 @@
+{
+  "log": {
+    "disabled": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "8.8.8.8",
+        "strategy": "ipv4_only"
+      }
+    ]
+  },
+  "inbounds": [
+  ],
+  "outbounds": [
+    {
+      "type": "direct"
+    }
+  ]
+}
