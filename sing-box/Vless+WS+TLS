@@ -1,0 +1,26 @@
+    {
+      "type": "vless",
+      "listen": "::",
+      "listen_port": 443,
+      "users": [
+        {
+          "name": "root",
+          "uuid": "6478801f-648c-4410-80c8-769fb9ae4b0b"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "example.org",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/key.pem"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "example.org"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    }
