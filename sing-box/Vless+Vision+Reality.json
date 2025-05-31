@@ -4,7 +4,6 @@
       "listen_port": 443,
       "users": [
         {
-          "name": "root",
           "uuid": "6478801f-648c-4410-80c8-769fb9ae4b0b",
           "flow": "xtls-rprx-vision"
         }
