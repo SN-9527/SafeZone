@@ -1,11 +1,12 @@
 {
   "log": {
-    "disabled": true
+    "disabled": false,
+    "level": "info"
   },
   "dns": {
     "servers": [
       {
-        "address": "8.8.8.8",
+        "address": "1.1.1.1",
         "strategy": "ipv4_only"
       }
     ]
