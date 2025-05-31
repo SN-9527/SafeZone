@@ -10,7 +10,7 @@
     "ignore_client_bandwidth": true,
     "tls": {
         "enabled": true,
-        "server_name": "example.org",
+        "server_name": "",
         "certificate_path": "",
         "key_path": ""
     },
