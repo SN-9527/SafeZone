@@ -66,5 +66,3 @@ dns:
   fallback:
     - https://dns.google/dns-query
     - https://cloudflare-dns.com/dns-query
-  proxy-server-nameserver:
-    - 114.114.114.114
