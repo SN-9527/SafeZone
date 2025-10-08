@@ -1,0 +1,124 @@
+{
+    "log": {
+        "level": "warn"
+    },
+    "dns": {
+        "servers": [
+            {
+                "tag": "dns_proxy",
+                "type": "udp",
+                "server": "23.94.243.117",
+                "server_port": 5353,
+                "detour": "direct"
+            },
+            {
+                "tag": "dns_direct",
+                "type": "udp",
+                "server": "223.5.5.5",
+                "server_port": 53,
+                "detour": "direct"
+            }
+        ],
+        "rules": [
+            {
+                "outbound": "any",
+                "server": "dns_direct"
+            },
+            {
+                "domain_suffix": [
+                    "nireus.cc",
+                    "kunlun.asia"
+                ],
+                "server": "dns_direct"
+            },
+            {
+                "rule_set": "geosite-geolocation-!cn",
+                "server": "dns_proxy"
+            }
+        ],
+        "final": "dns_direct",
+        "independent_cache": true
+    },
+    "route": {
+        "rule_set": [
+            {
+                "type": "remote",
+                "tag": "geosite-geolocation-!cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs"
+            },
+            {
+                "type": "remote",
+                "tag": "geoip-cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs"
+            }
+        ],
+        "rules": [
+            {
+                "inbound": "tun-in",
+                "action": "sniff"
+            },
+            {
+                "protocol": "dns",
+                "action": "hijack-dns"
+            },
+            {
+                "domain_suffix": [
+                    "nireus.cc",
+                    "kunlun.asia"
+                ],
+                "outbound": "direct"
+            },
+            {
+                "rule_set": "geoip-cn",
+                "outbound": "direct"
+            },
+            {
+                "ip_is_private": true,
+                "outbound": "direct"
+            }
+        ],
+        "final": "proxy",
+        "auto_detect_interface": true
+    },
+    "inbounds": [
+        {
+            "type": "tun",
+            "tag": "tun-in",
+            "address": [
+                "172.18.0.1/30"
+            ],
+            "mtu": 9000,
+            "auto_route": true,
+            "strict_route": true,
+            "stack": "system"
+        }
+    ],
+    "outbounds": [
+        {
+            "type": "vless",
+            "tag": "proxy",
+            "server": "104.17.128.0",
+            "server_port": 8443,
+            "uuid": "6478801f-648c-4410-80c8-769fb9ae4b0b",
+            "tls": {
+                "enabled": true,
+                "server_name": "chat.kunlun.asia",
+                "insecure": false
+            },
+            "packet_encoding": "xudp",
+            "transport": {
+                "type": "ws",
+                "path": "/chat",
+                "headers": {
+                    "Host": "chat.kunlun.asia"
+                }
+            }
+        },
+        {
+            "type": "direct",
+            "tag": "direct"
+        }
+    ]
+}
