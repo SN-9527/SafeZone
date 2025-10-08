@@ -6,16 +6,14 @@
         "servers": [
             {
                 "tag": "dns_proxy",
-                "type": "udp",
-                "server": "23.94.243.117",
-                "server_port": 5353,
+                "address": "tls://1.1.1.1",
+                "strategy": "ipv4_only",
                 "detour": "direct"
             },
             {
                 "tag": "dns_direct",
-                "type": "udp",
-                "server": "223.5.5.5",
-                "server_port": 53,
+                "address": "tls://223.5.5.5",
+                "strategy": "ipv4_only",
                 "detour": "direct"
             }
         ],
