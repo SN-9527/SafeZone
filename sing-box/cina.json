@@ -6,13 +6,19 @@
         "servers": [
             {
                 "tag": "dns_proxy",
-                "address": "tls://1.1.1.1",
+                "address": "https://1.1.1.1/dns-query",
+                "strategy": "ipv4_only",
+                "detour": "proxy"
+            },
+            {
+                "tag": "dns_aliyun",
+                "address": "223.5.5.5",
                 "strategy": "ipv4_only",
                 "detour": "direct"
             },
             {
-                "tag": "dns_direct",
-                "address": "tls://223.5.5.5",
+                "tag": "dns_google",
+                "address": "8.8.8.8",
                 "strategy": "ipv4_only",
                 "detour": "direct"
             }
@@ -20,25 +26,37 @@
         "rules": [
             {
                 "outbound": "any",
-                "server": "dns_direct"
+                "server": "dns_google"
             },
             {
                 "domain_suffix": [
                     "nireus.cc",
-                    "kunlun.asia"
+                    "kunlun.asia",
+                    "apple.com",
+                    "icloud.com"
                 ],
-                "server": "dns_direct"
+                "server": "dns_google"
             },
             {
                 "rule_set": "geosite-geolocation-!cn",
                 "server": "dns_proxy"
+            },
+            {
+                "rule_set": "geosite-cn",
+                "server": "dns_aliyun"
             }
         ],
-        "final": "dns_direct",
+        "final": "dns_google",
         "independent_cache": true
     },
     "route": {
         "rule_set": [
+            {
+                "type": "remote",
+                "tag": "geosite-cn",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs"
+            },
             {
                 "type": "remote",
                 "tag": "geosite-geolocation-!cn",
@@ -64,8 +82,14 @@
             {
                 "domain_suffix": [
                     "nireus.cc",
-                    "kunlun.asia"
+                    "kunlun.asia",
+                    "apple.com",
+                    "icloud.com"
                 ],
+                "outbound": "direct"
+            },
+            {
+                "rule_set": "geosite-cn",
                 "outbound": "direct"
             },
             {
