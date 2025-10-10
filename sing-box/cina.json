@@ -6,7 +6,7 @@
         "servers": [
             {
                 "tag": "dns_proxy",
-                "address": "https://1.1.1.1/dns-query",
+                "address": "https://8.8.8.8/dns-query",
                 "strategy": "ipv4_only",
                 "detour": "proxy"
             },
@@ -15,18 +15,12 @@
                 "address": "223.5.5.5",
                 "strategy": "ipv4_only",
                 "detour": "direct"
-            },
-            {
-                "tag": "dns_google",
-                "address": "8.8.8.8",
-                "strategy": "ipv4_only",
-                "detour": "direct"
             }
         ],
         "rules": [
             {
                 "outbound": "any",
-                "server": "dns_google"
+                "server": "dns_aliyun"
             },
             {
                 "domain_suffix": [
@@ -35,18 +29,14 @@
                     "apple.com",
                     "icloud.com"
                 ],
-                "server": "dns_google"
-            },
-            {
-                "rule_set": "geosite-geolocation-!cn",
-                "server": "dns_proxy"
+                "server": "dns_aliyun"
             },
             {
                 "rule_set": "geosite-cn",
                 "server": "dns_aliyun"
             }
         ],
-        "final": "dns_google",
+        "final": "dns_proxy",
         "independent_cache": true
     },
     "route": {
@@ -81,23 +71,13 @@
             },
             {
                 "domain_suffix": [
-                    "nireus.cc",
-                    "kunlun.asia",
                     "apple.com",
                     "icloud.com"
                 ],
                 "outbound": "direct"
             },
             {
-                "rule_set": "geosite-cn",
-                "outbound": "direct"
-            },
-            {
                 "rule_set": "geoip-cn",
-                "outbound": "direct"
-            },
-            {
-                "ip_is_private": true,
                 "outbound": "direct"
             }
         ],
