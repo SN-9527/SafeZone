@@ -6,13 +6,13 @@
         "servers": [
             {
                 "tag": "dns_proxy",
-                "address": "tls://8.8.8.8",
+                "address": "23.94.243.117:5353",
                 "strategy": "ipv4_only",
-                "detour": "proxy"
+                "detour": "direct"
             },
             {
                 "tag": "dns_direct",
-                "address": "tls://223.5.5.5",
+                "address": "223.5.5.5",
                 "strategy": "ipv4_only",
                 "detour": "direct"
             }
@@ -20,7 +20,7 @@
         "rules": [
             {
                 "outbound": "any",
-                "server": "dns_direct"
+                "server": "dns_proxy"
             },
             {
                 "domain_suffix": [
@@ -29,6 +29,20 @@
                     "icloud.com"
                 ],
                 "server": "dns_direct"
+            },
+            {
+                "domain_keyword": [
+                    "google",
+                    "twitter",
+                    "youtube",
+                    "instagram",
+                    "facebook",
+                    "telegram",
+                    "porn",
+                    "chatgpt",
+                    "openai"
+                ],
+                "server": "dns_proxy"
             },
             {
                 "rule_set": "geosite-geolocation-!cn",
@@ -71,6 +85,20 @@
             {
                 "protocol": "dns",
                 "action": "hijack-dns"
+            },
+            {
+                "domain_keyword": [
+                    "google",
+                    "twitter",
+                    "youtube",
+                    "instagram",
+                    "facebook",
+                    "telegram",
+                    "porn",
+                    "chatgpt",
+                    "openai"
+                ],
+                "outbound": "proxy"
             },
             {
                 "domain_suffix": [
