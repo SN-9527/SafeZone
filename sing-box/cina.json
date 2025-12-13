@@ -19,42 +19,11 @@
         ],
         "rules": [
             {
-                "outbound": "any",
-                "server": "dns_proxy"
-            },
-            {
-                "domain_suffix": [
-                    ".cn",
-                    "apple.com",
-                    "icloud.com"
-                ],
-                "server": "dns_direct"
-            },
-            {
-                "domain_keyword": [
-                    "google",
-                    "twitter",
-                    "youtube",
-                    "instagram",
-                    "facebook",
-                    "telegram",
-                    "porn",
-                    "chatgpt",
-                    "openai",
-                    "tiktok"
-                ],
-                "server": "dns_proxy"
-            },
-            {
-                "rule_set": "geosite-geolocation-!cn",
-                "server": "dns_proxy"
-            },
-            {
                 "rule_set": "geosite-cn",
                 "server": "dns_direct"
             }
         ],
-        "final": "dns_direct",
+        "final": "dns_proxy",
         "independent_cache": true
     },
     "route": {
@@ -80,7 +49,6 @@
         ],
         "rules": [
             {
-                "inbound": "tun-in",
                 "action": "sniff"
             },
             {
@@ -88,26 +56,7 @@
                 "action": "hijack-dns"
             },
             {
-                "domain_keyword": [
-                    "google",
-                    "twitter",
-                    "youtube",
-                    "instagram",
-                    "facebook",
-                    "telegram",
-                    "porn",
-                    "chatgpt",
-                    "openai",
-                    "tiktok"
-                ],
-                "outbound": "proxy"
-            },
-            {
-                "domain_suffix": [
-                    ".cn",
-                    "apple.com",
-                    "icloud.com"
-                ],
+                "ip_is_private": true,
                 "outbound": "direct"
             },
             {
