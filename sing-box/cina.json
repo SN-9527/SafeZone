@@ -86,7 +86,7 @@
     ],
     "outbounds": [
         {
-            "tag": "proxy",
+            "tag": "proxy1",
             "type": "vless",
             "server": "104.17.0.0",
             "server_port": 8443,
@@ -103,6 +103,19 @@
                 "headers": {
                     "Host": "chat.kunlun.asia"
                 }
+            }
+        },
+        {
+            "tag": "proxy",
+            "type": "hysteria2",
+            "server": "23.94.243.117",
+            "server_port": 1888,
+            "up_mbps": 1000,
+            "down_mbps": 1000,
+            "password": "6478801f-648c-4410-80c8-769fb9ae4b0b",
+            "tls": {
+                "enabled": true,
+                "server_name": "hy.nireus.cc"
             }
         },
         {
