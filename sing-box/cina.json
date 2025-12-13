@@ -107,15 +107,20 @@
         },
         {
             "tag": "proxy",
-            "type": "hysteria2",
+            "type": "trojan",
             "server": "23.94.243.117",
             "server_port": 1888,
-            "up_mbps": 1000,
-            "down_mbps": 1000,
             "password": "6478801f-648c-4410-80c8-769fb9ae4b0b",
             "tls": {
                 "enabled": true,
-                "server_name": "hy.nireus.cc"
+                "server_name": "api.nireus.cc",
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "safari"
+                }
+            },
+            "multiplex": {
+                "enabled": true
             }
         },
         {
