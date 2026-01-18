@@ -6,11 +6,11 @@
     "servers": [
       {
         "tag": "dns_proxy",
-        "address": "https://domain-name-system.nireus.cc/dns-query",
+        "address": "https://dns.google/dns-query",
         "address_resolver": "dns_direct",
         "address_strategy": "ipv4_only",
         "strategy": "ipv4_only",
-        "detour": "direct"
+        "detour": "proxy"
       },
       {
         "tag": "dns_direct",
@@ -22,13 +22,6 @@
     "rules": [
       {
         "outbound": "any",
-        "server": "dns_direct"
-      },
-      {
-        "domain_suffix": [
-          "nireus.cc",
-          "kunlun.asia"
-        ],
         "server": "dns_direct"
       },
       {
@@ -64,30 +57,19 @@
         "action": "hijack-dns"
       },
       {
-        "domain_suffix": [
-          "nireus.cc",
-          "kunlun.asia"
-        ],
-        "outbound": "direct"
-      },
-      {
         "rule_set": "geosite-geolocation-!cn",
-        "port": [
-          80,
-          443
-        ],
         "outbound": "proxy"
-      },
-      {
-        "rule_set": "geoip-cn",
-        "outbound": "direct"
       },
       {
         "ip_is_private": true,
         "outbound": "direct"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "outbound": "direct"
       }
     ],
-    "final": "direct",
+    "final": "proxy",
     "auto_detect_interface": true
   },
   "inbounds": [
@@ -105,24 +87,22 @@
   ],
   "outbounds": [
     {
-      "type": "vless",
       "tag": "proxy",
-      "server": "",
+      "type": "vless",
+      "server": "104.17.0.0",
       "server_port": 443,
       "uuid": "6478801f-648c-4410-80c8-769fb9ae4b0b",
-      "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "www.bing.com",
-        "insecure": false,
-        "utls": {
-          "enabled": true,
-          "fingerprint": "chrome"
-        },
-        "reality": {
-          "enabled": true,
-          "public_key": "owt1EdY_o_cfLaPWmmbzK1Ks3LtOPQBhQZdeX-gJyFQ",
-          "short_id": "0af950dadb424d90"
+        "server_name": "chat.kunlun.asia",
+        "insecure": true
+      },
+      "packet_encoding": "xudp",
+      "transport": {
+        "type": "ws",
+        "path": "/chat",
+        "headers": {
+          "Host": "chat.kunlun.asia"
         }
       }
     },
