@@ -6,33 +6,31 @@
     "servers": [
       {
         "tag": "dns_proxy",
-        "address": "https://dns.google/dns-query",
-        "address_resolver": "dns_direct",
-        "address_strategy": "ipv4_only",
-        "strategy": "ipv4_only",
+        "type": "tls",
+        "server": "8.8.8.8",
+        "server_port": 853,
         "detour": "proxy"
       },
       {
         "tag": "dns_direct",
-        "address": "tls://223.5.5.5",
-        "strategy": "ipv4_only",
-        "detour": "direct"
+        "type": "udp",
+        "server": "223.5.5.5",
+        "server_port": 53
       }
     ],
     "rules": [
-      {
-        "outbound": "any",
-        "server": "dns_direct"
-      },
       {
         "rule_set": "geosite-geolocation-!cn",
         "server": "dns_proxy"
       }
     ],
     "final": "dns_direct",
+    "strategy": "ipv4_only",
+    "reverse_mapping": true,
     "independent_cache": true
   },
   "route": {
+    "default_domain_resolver": "dns_direct",
     "rule_set": [
       {
         "type": "remote",
@@ -50,7 +48,8 @@
     "rules": [
       {
         "inbound": "tun-in",
-        "action": "sniff"
+        "action": "sniff",
+        "timeout": "300ms"
       },
       {
         "protocol": "dns",
@@ -77,7 +76,7 @@
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "10.10.10.0/30"
+        "172.19.0.1/30"
       ],
       "mtu": 9000,
       "auto_route": true,
