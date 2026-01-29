@@ -1,0 +1,69 @@
+{
+  "log": {
+    "loglevel": "warn"
+  },
+  "inbounds": [
+    {
+      "port": 2053,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "593977df-ece5-4d33-8952-2bb8b09542e2"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "tls",
+        "tlsSettings": {
+          "certificates": [
+            {
+              "certificateFile": "/usr/local/etc/xray/nireus.cc.pem",
+              "keyFile": "/usr/local/etc/xray/nireus.cc.key"
+            }
+          ]
+        },
+        "xhttpSettings": {
+          "host": "harmony.nireus.cc",
+          "path": "/cn/phones/mate-x7",
+          "mode": "auto"
+        }
+      }
+    },
+    {
+      "port": 8443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "593977df-ece5-4d33-8952-2bb8b09542e2"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "certificates": [
+            {
+              "certificateFile": "/usr/local/etc/xray/nireus.cc.pem",
+              "keyFile": "/usr/local/etc/xray/nireus.cc.key"
+            }
+          ]
+        },
+        "wsSettings": {
+          "host": "harmony.nireus.cc",
+          "path": "/cn/phones/mate80-rs-ultimate-design"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    }
+  ]
+}
