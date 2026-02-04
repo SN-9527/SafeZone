@@ -89,6 +89,13 @@
         "download_detour": "proxy"
       },
       {
+        "tag": "geosite-ads",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
+        "download_detour": "proxy"
+      },
+      {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
@@ -104,6 +111,12 @@
       {
         "protocol": "dns",
         "action": "hijack-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-ads"
+        ],
+        "action": "reject"
       },
       {
         "domain_suffix": [
