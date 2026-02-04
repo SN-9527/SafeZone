@@ -7,7 +7,7 @@
       {
         "tag": "google",
         "address": "tls://8.8.8.8",
-        "detour": "select"
+        "detour": "proxy"
       },
       {
         "tag": "alibaba",
@@ -59,7 +59,7 @@
   "outbounds": [
     {
       "type": "selector",
-      "tag": "select",
+      "tag": "proxy",
       "outbounds": [
         "cf16",
         "cf17",
@@ -67,6 +67,18 @@
         "eo"
       ],
       "default": "cf16",
+      "interrupt_exist_connections": true
+    },
+    {
+      "type": "selector",
+      "tag": "tg",
+      "outbounds": [
+        "cf16",
+        "cf17",
+        "cf19",
+        "eo"
+      ],
+      "default": "eo",
       "interrupt_exist_connections": true
     },
     {
@@ -175,6 +187,20 @@
         "outbound": "direct"
       },
       {
+        "ip_cidr": [
+          "91.108.56.0/22",
+          "91.108.4.0/22",
+          "91.108.8.0/22",
+          "91.108.16.0/22",
+          "91.108.12.0/22",
+          "149.154.160.0/20",
+          "91.105.192.0/23",
+          "91.108.20.0/22",
+          "185.76.151.0/24"
+        ],
+        "outbound": "tg"
+      },
+      {
         "rule_set": [
           "geoip-cn"
         ],
@@ -187,21 +213,21 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
-        "download_detour": "select"
+        "download_detour": "proxy"
       },
       {
         "tag": "geosite-ads",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
-        "download_detour": "select"
+        "download_detour": "proxy"
       },
       {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/rule-set/geoip-cn.srs",
-        "download_detour": "select"
+        "download_detour": "proxy"
       }
     ],
     "auto_detect_interface": true
