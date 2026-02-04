@@ -5,9 +5,7 @@
   "dns": {
     "servers": [
       {
-        "type": "tls",
-        "server": "8.8.8.8",
-        "server_port": 853,
+        "address": "8.8.8.8",
         "detour": "proxy"
       }
     ],
