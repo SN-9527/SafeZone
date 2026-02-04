@@ -3,6 +3,18 @@
     "level": "warn"
   },
   "dns": {
+    "servers": [
+      {
+        "tag": "google",
+        "address": "tls://8.8.8.8",
+        "detour": "proxy"
+      },
+      {
+        "tag": "alibaba",
+        "address": "tls://223.5.5.5",
+        "detour": "direct"
+      }
+    ],
     "rules": [
       {
         "domain_suffix": [
@@ -23,18 +35,6 @@
           "geosite-cn"
         ],
         "server": "alibaba"
-      }
-    ],
-    "servers": [
-      {
-        "tag": "google",
-        "address": "tls://8.8.8.8",
-        "detour": "proxy"
-      },
-      {
-        "tag": "alibaba",
-        "address": "tls://223.5.5.5",
-        "detour": "direct"
       }
     ],
     "independent_cache": true,
@@ -80,30 +80,6 @@
     }
   ],
   "route": {
-    "rule_set": [
-      {
-        "tag": "geosite-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "geosite-ads",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "geoip-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/rule-set/geoip-cn.srs",
-        "download_detour": "proxy"
-      }
-    ],
-    "auto_detect_interface": true,
     "rules": [
       {
         "action": "sniff"
@@ -137,6 +113,30 @@
         ],
         "outbound": "direct"
       }
-    ]
+    ],
+    "rule_set": [
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-ads",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/rule-set/geoip-cn.srs",
+        "download_detour": "proxy"
+      }
+    ],
+    "auto_detect_interface": true
   }
 }
