@@ -78,7 +78,7 @@
         "cf19",
         "eo"
       ],
-      "default": "eo",
+      "default": "cf16",
       "interrupt_exist_connections": true
     },
     {
