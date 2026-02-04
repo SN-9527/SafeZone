@@ -7,7 +7,7 @@
       {
         "tag": "google",
         "address": "tls://8.8.8.8",
-        "detour": "proxy"
+        "detour": "eo"
       },
       {
         "tag": "alibaba",
@@ -57,9 +57,75 @@
   ],
   "outbounds": [
     {
-      "tag": "proxy",
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "cf16",
+        "cf17",
+        "cf19",
+        "eo"
+      ],
+      "default": "cf16",
+      "interrupt_exist_connections": true
+    },
+    {
+      "tag": "eo",
+      "type": "vless",
+      "server": "api.nireus.cc",
+      "server_port": 443,
+      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+      "tls": {
+        "enabled": true,
+        "server_name": "api.nireus.cc"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/greatfirewall",
+        "headers": {
+          "Host": "api.nireus.cc"
+        }
+      }
+    },
+    {
+      "tag": "cf16",
       "type": "vless",
       "server": "104.16.0.0",
+      "server_port": 8443,
+      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.nireus.cc"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/greatfirewall",
+        "headers": {
+          "Host": "www.nireus.cc"
+        }
+      }
+    },
+    {
+      "tag": "cf17",
+      "type": "vless",
+      "server": "104.17.0.0",
+      "server_port": 8443,
+      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.nireus.cc"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/greatfirewall",
+        "headers": {
+          "Host": "www.nireus.cc"
+        }
+      }
+    },
+    {
+      "tag": "cf19",
+      "type": "vless",
+      "server": "104.19.0.0",
       "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
@@ -120,21 +186,21 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
-        "download_detour": "proxy"
+        "download_detour": "eo"
       },
       {
         "tag": "geosite-ads",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
-        "download_detour": "proxy"
+        "download_detour": "eo"
       },
       {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/rule-set/geoip-cn.srs",
-        "download_detour": "proxy"
+        "download_detour": "eo"
       }
     ],
     "auto_detect_interface": true
