@@ -7,7 +7,7 @@
       {
         "tag": "google",
         "address": "tls://8.8.8.8",
-        "detour": "eo"
+        "detour": "select"
       },
       {
         "tag": "alibaba",
@@ -25,6 +25,7 @@
       },
       {
         "domain_suffix": [
+          "nireus.cc",
           "apple.com",
           "icloud.com"
         ],
@@ -186,21 +187,21 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
-        "download_detour": "eo"
+        "download_detour": "select"
       },
       {
         "tag": "geosite-ads",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
-        "download_detour": "eo"
+        "download_detour": "select"
       },
       {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/rule-set/geoip-cn.srs",
-        "download_detour": "eo"
+        "download_detour": "select"
       }
     ],
     "auto_detect_interface": true
