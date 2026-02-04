@@ -3,12 +3,41 @@
     "level": "warn"
   },
   "dns": {
-    "servers": [
+    "rules": [
       {
-        "address": "tls://8.8.8.8",
-        "detour": "proxy"
+        "domain_suffix": [
+          ".cn",
+          "qq.com"
+        ],
+        "server": "alibaba"
+      },
+      {
+        "domain_suffix": [
+          "apple.com",
+          "icloud.com"
+        ],
+        "server": "alibaba"
+      },
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "server": "alibaba"
       }
     ],
+    "servers": [
+      {
+        "tag": "google",
+        "address": "tls://8.8.8.8",
+        "detour": "proxy"
+      },
+      {
+        "tag": "alibaba",
+        "address": "tls://223.5.5.5",
+        "detour": "direct"
+      }
+    ],
+    "independent_cache": true,
     "strategy": "ipv4_only",
     "disable_cache": false,
     "disable_expire": false
@@ -51,6 +80,22 @@
     }
   ],
   "route": {
+    "rule_set": [
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geoip/raw/refs/heads/release/geoip-cn.db",
+        "download_detour": "proxy"
+      }
+    ],
     "auto_detect_interface": true,
     "rules": [
       {
@@ -61,29 +106,21 @@
         "action": "hijack-dns"
       },
       {
-        "domain_keyword": [
-          "baidu",
-          "tencent",
-          "alipay",
-          "taobao",
-          "meituan",
-          "qq.com",
-          "weixin",
-          "wechat",
-          "douyin",
-          "bilibili",
-          "pinduoduo",
-          "yangkeduo",
-          "alibaba",
-          "xiaohongshu",
-          "360buy",
-          "pdd"
-        ],
         "domain_suffix": [
-          ".cn",
-          "jd.com",
           "apple.com",
           "icloud.com"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geoip-cn"
         ],
         "outbound": "direct"
       }
