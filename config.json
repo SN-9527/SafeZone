@@ -1,0 +1,80 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "tls",
+        "server": "8.8.8.8",
+        "server_port": 853,
+        "detour": "proxy"
+      }
+    ],
+    "strategy": "ipv4_only",
+    "disable_cache": false,
+    "disable_expire": false
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30"
+      ],
+      "mtu": 1500,
+      "auto_redirect": true,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "gvisor"
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "proxy",
+      "type": "vless",
+      "server": "104.16.0.0",
+      "server_port": 443,
+      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.nireus.cc"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/greatfirewall",
+        "headers": {
+          "Host": "www.nireus.cc"
+        }
+      }
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "domain_keyword": [
+          "google"
+        ],
+        "domain_suffix": [
+          "youtube.com",
+          "ytimg.com",
+          "ggpht.com",
+          "gstatic.com"
+        ],
+        "outbound": "proxy"
+      }
+    ]
+  }
+}
