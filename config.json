@@ -1,11 +1,11 @@
 {
   "log": {
-    "level": "info"
+    "level": "warn"
   },
   "dns": {
     "servers": [
       {
-        "address": "8.8.8.8",
+        "address": "tls://8.8.8.8",
         "detour": "proxy"
       }
     ],
@@ -21,7 +21,6 @@
         "172.19.0.1/30"
       ],
       "mtu": 1500,
-      "auto_redirect": true,
       "auto_route": true,
       "strict_route": true,
       "stack": "gvisor"
@@ -36,7 +35,7 @@
       "tag": "proxy",
       "type": "vless",
       "server": "104.16.0.0",
-      "server_port": 443,
+      "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
         "enabled": true,
