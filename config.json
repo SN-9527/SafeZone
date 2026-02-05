@@ -6,40 +6,57 @@
     "servers": [
       {
         "tag": "google",
-        "address": "tls://8.8.8.8",
-        "detour": "proxy"
+        "address": "tcp://8.8.8.8",
+        "detour": "proxy",
+        "strategy": "ipv4_only"
       },
       {
         "tag": "alibaba",
-        "address": "tls://223.5.5.5",
-        "detour": "direct"
+        "address": "223.5.5.5",
+        "detour": "direct",
+        "strategy": "ipv4_only"
+      },
+      {
+        "tag": "refused",
+        "address": "rcode://refused"
+      },
+      {
+        "tag": "fakeip",
+        "address": "fakeip"
       }
     ],
     "rules": [
       {
-        "domain_suffix": [
-          ".cn",
-          "qq.com"
+        "rule_set": "geosite-!cn",
+        "query_type": [
+          "A"
         ],
-        "server": "alibaba"
+        "server": "fakeip"
       },
       {
-        "domain_suffix": [
-          "nireus.cc",
-          "apple.com",
-          "icloud.com"
+        "rule_set": "geosite-!cn",
+        "query_type": [
+          "CNAME"
         ],
-        "server": "alibaba"
+        "server": "google"
       },
       {
-        "rule_set": [
-          "geosite-cn"
+        "query_type": [
+          "A",
+          "CNAME"
         ],
-        "server": "alibaba"
+        "invert": true,
+        "server": "refused",
+        "action": "route-options",
+        "disable_cache": true
       }
     ],
+    "final": "alibaba",
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15"
+    },
     "independent_cache": true,
-    "strategy": "ipv4_only",
     "disable_cache": false,
     "disable_expire": false
   },
@@ -48,7 +65,7 @@
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "172.19.0.1/30"
+        "172.18.0.1/30"
       ],
       "mtu": 1500,
       "auto_route": true,
@@ -63,41 +80,11 @@
       "outbounds": [
         "cf16",
         "cf17",
-        "cf19",
-        "eo"
+        "cf18",
+        "cf19"
       ],
       "default": "cf16",
       "interrupt_exist_connections": true
-    },
-    {
-      "type": "selector",
-      "tag": "tg",
-      "outbounds": [
-        "cf16",
-        "cf17",
-        "cf19",
-        "eo"
-      ],
-      "default": "cf16",
-      "interrupt_exist_connections": true
-    },
-    {
-      "tag": "eo",
-      "type": "vless",
-      "server": "api.nireus.cc",
-      "server_port": 443,
-      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
-      "tls": {
-        "enabled": true,
-        "server_name": "api.nireus.cc"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/greatfirewall",
-        "headers": {
-          "Host": "api.nireus.cc"
-        }
-      }
     },
     {
       "tag": "cf16",
@@ -121,6 +108,24 @@
       "tag": "cf17",
       "type": "vless",
       "server": "104.17.0.0",
+      "server_port": 8443,
+      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.nireus.cc"
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/greatfirewall",
+        "headers": {
+          "Host": "www.nireus.cc"
+        }
+      }
+    },
+    {
+      "tag": "cf19",
+      "type": "vless",
+      "server": "104.18.0.0",
       "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
@@ -168,6 +173,16 @@
         "action": "hijack-dns"
       },
       {
+        "port": 853,
+        "network": "tcp",
+        "action": "reject"
+      },
+      {
+        "port": 443,
+        "network": "udp",
+        "action": "reject"
+      },
+      {
         "rule_set": [
           "geosite-ads"
         ],
@@ -187,23 +202,13 @@
         "outbound": "direct"
       },
       {
-        "ip_cidr": [
-          "91.108.56.0/22",
-          "91.108.4.0/22",
-          "91.108.8.0/22",
-          "91.108.16.0/22",
-          "91.108.12.0/22",
-          "149.154.160.0/20",
-          "91.105.192.0/23",
-          "91.108.20.0/22",
-          "185.76.151.0/24"
-        ],
-        "outbound": "tg"
-      },
-      {
         "rule_set": [
           "geoip-cn"
         ],
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
         "outbound": "direct"
       }
     ],
@@ -220,6 +225,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-!cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-geolocation-!cn.srs",
         "download_detour": "proxy"
       },
       {
