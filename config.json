@@ -12,7 +12,7 @@
       },
       {
         "tag": "alibaba",
-        "address": "223.5.5.5",
+        "address": "https://223.5.5.5/dns-query",
         "detour": "direct",
         "strategy": "ipv4_only"
       },
@@ -123,7 +123,7 @@
       }
     },
     {
-      "tag": "cf19",
+      "tag": "cf18",
       "type": "vless",
       "server": "104.18.0.0",
       "server_port": 8443,
