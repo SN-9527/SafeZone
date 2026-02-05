@@ -76,6 +76,16 @@
   "outbounds": [
     {
       "type": "selector",
+      "tag": "final",
+      "outbounds": [
+        "proxy",
+        "direct"
+      ],
+      "default": "proxy",
+      "interrupt_exist_connections": true
+    },
+    {
+      "type": "selector",
       "tag": "proxy",
       "outbounds": [
         "cf16",
@@ -189,6 +199,12 @@
         "action": "reject"
       },
       {
+        "rule_set": [
+          "geosite-google"
+        ],
+        "action": "reject"
+      },
+      {
         "domain_suffix": [
           "apple.com",
           "icloud.com"
@@ -213,6 +229,13 @@
       }
     ],
     "rule_set": [
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-google.srs",
+        "download_detour": "proxy"
+      },
       {
         "tag": "geosite-cn",
         "type": "remote",
@@ -242,6 +265,7 @@
         "download_detour": "proxy"
       }
     ],
+    "final": "final",
     "auto_detect_interface": true
   }
 }
