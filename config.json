@@ -5,9 +5,10 @@
   "dns": {
     "servers": [
       {
-        "tag": "google",
-        "address": "tcp://8.8.8.8",
-        "detour": "proxy",
+        "tag": "v.recipes",
+        "address": "https://v.recipes/dns-query",
+        "address_resolver": "alibaba",
+        "detour": "direct",
         "strategy": "ipv4_only"
       },
       {
@@ -15,30 +16,16 @@
         "address": "https://223.5.5.5/dns-query",
         "detour": "direct",
         "strategy": "ipv4_only"
-      },
-      {
-        "tag": "refused",
-        "address": "rcode://refused"
-      },
-      {
-        "tag": "fakeip",
-        "address": "fakeip"
       }
     ],
     "rules": [
       {
-        "rule_set": "geosite-!cn",
+        "rule_set": "geosite-cn",
         "query_type": [
+          "CNAME",
           "A"
         ],
-        "server": "fakeip"
-      },
-      {
-        "rule_set": "geosite-!cn",
-        "query_type": [
-          "CNAME"
-        ],
-        "server": "google"
+        "server": "alibaba"
       },
       {
         "query_type": [
@@ -51,11 +38,7 @@
         "disable_cache": true
       }
     ],
-    "final": "alibaba",
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/15"
-    },
+    "final": "v.recipes",
     "independent_cache": true,
     "disable_cache": false,
     "disable_expire": false
@@ -202,7 +185,7 @@
         "rule_set": [
           "geosite-google"
         ],
-        "action": "reject"
+        "outbound": "proxy"
       },
       {
         "domain_suffix": [
