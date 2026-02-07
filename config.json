@@ -1,42 +1,65 @@
 {
   "log": {
-    "level": "error"
+    "level": "info"
   },
   "dns": {
     "servers": [
       {
         "tag": "dns4world",
         "address": "https://unfiltered.joindns4.eu/dns-query",
-        "address_resolver": "local",
+        "address_resolver": "resolver",
         "detour": "direct",
         "strategy": "ipv4_only"
       },
       {
         "tag": "dns4china",
         "address": "https://doh.18bit.cn/dns-query",
-        "address_resolver": "local",
+        "address_resolver": "resolver",
         "detour": "direct",
         "strategy": "ipv4_only"
       },
       {
-        "tag": "local",
-        "address": "223.5.5.5",
-        "detour": "direct",
-        "strategy": "ipv4_only"
+        "tag": "resolver",
+        "address": "tls://223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "refused",
+        "address": "rcode://refused"
+      },
+      {
+        "tag": "fakeip",
+        "address": "fakeip"
       }
     ],
     "rules": [
       {
-        "rule_set": "geosite-cn",
-        "query_type": [
-          "CNAME",
-          "A"
+        "domain_suffix": [
+          "apple.com",
+          "icloud.com",
+          "nireus.cc"
         ],
-        "server": "dns4china"
+        "server": "resolver"
+      },
+      {
+        "rule_set": "geosite-!cn",
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip"
+      },
+      {
+        "rule_set": "geosite-!cn",
+        "query_type": [
+          "CNAME"
+        ],
+        "server": "dns4world"
       },
       {
         "query_type": [
           "A",
+          "AAAA",
           "CNAME"
         ],
         "invert": true,
@@ -45,7 +68,12 @@
         "disable_cache": true
       }
     ],
-    "final": "dns4world",
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    },
+    "final": "dns4china",
     "independent_cache": true,
     "disable_cache": false,
     "disable_expire": false
@@ -55,7 +83,8 @@
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "172.18.0.1/30"
+        "172.16.0.1/30",
+        "fd00::1/126"
       ],
       "mtu": 1500,
       "auto_route": true,
@@ -65,16 +94,6 @@
   ],
   "outbounds": [
     {
-      "type": "selector",
-      "tag": "final",
-      "outbounds": [
-        "proxy",
-        "direct"
-      ],
-      "default": "proxy",
-      "interrupt_exist_connections": true
-    },
-    {
       "tag": "proxy",
       "type": "vless",
       "server": "www.nireus.cc",
@@ -82,7 +101,8 @@
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
         "enabled": true,
-        "server_name": "www.nireus.cc"
+        "server_name": "www.nireus.cc",
+        "insecure": false
       },
       "transport": {
         "type": "ws",
@@ -123,28 +143,19 @@
         "action": "reject"
       },
       {
-        "rule_set": [
-          "geosite-google"
+        "domain_suffix": [
+          "apple.com",
+          "icloud.com",
+          "nireus.cc"
         ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-!cn",
         "outbound": "proxy"
       },
       {
-        "domain_suffix": [
-          "apple.com",
-          "icloud.com"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "rule_set": [
-          "geosite-cn"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "rule_set": [
-          "geoip-cn"
-        ],
+        "rule_set": "geoip-cn",
         "outbound": "direct"
       },
       {
@@ -153,20 +164,6 @@
       }
     ],
     "rule_set": [
-      {
-        "tag": "geosite-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-google.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "geosite-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
-        "download_detour": "proxy"
-      },
       {
         "tag": "geosite-ads",
         "type": "remote",
@@ -189,7 +186,6 @@
         "download_detour": "proxy"
       }
     ],
-    "final": "final",
     "auto_detect_interface": true
   }
 }
