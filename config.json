@@ -5,15 +5,15 @@
   "dns": {
     "servers": [
       {
-        "tag": "v.recipes",
-        "address": "https://v.recipes/dns-query",
+        "tag": "dns4world",
+        "address": "https://unfiltered.joindns4.eu/dns-query",
         "address_resolver": "local",
         "detour": "direct",
         "strategy": "ipv4_only"
       },
       {
-        "tag": "alibaba",
-        "address": "https://dns.alidns.com/dns-query",
+        "tag": "dns4china",
+        "address": "https://doh.18bit.cn/dns-query",
         "address_resolver": "local",
         "detour": "direct",
         "strategy": "ipv4_only"
@@ -32,7 +32,7 @@
           "CNAME",
           "A"
         ],
-        "server": "alibaba"
+        "server": "dns4china"
       },
       {
         "query_type": [
@@ -45,7 +45,7 @@
         "disable_cache": true
       }
     ],
-    "final": "v.recipes",
+    "final": "dns4world",
     "independent_cache": true,
     "disable_cache": false,
     "disable_expire": false
@@ -75,75 +75,9 @@
       "interrupt_exist_connections": true
     },
     {
-      "type": "selector",
       "tag": "proxy",
-      "outbounds": [
-        "cf16",
-        "cf17",
-        "cf18",
-        "cf19"
-      ],
-      "default": "cf16",
-      "interrupt_exist_connections": true
-    },
-    {
-      "tag": "cf16",
       "type": "vless",
-      "server": "104.16.0.0",
-      "server_port": 8443,
-      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
-      "tls": {
-        "enabled": true,
-        "server_name": "www.nireus.cc"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/greatfirewall",
-        "headers": {
-          "Host": "www.nireus.cc"
-        }
-      }
-    },
-    {
-      "tag": "cf17",
-      "type": "vless",
-      "server": "104.17.0.0",
-      "server_port": 8443,
-      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
-      "tls": {
-        "enabled": true,
-        "server_name": "www.nireus.cc"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/greatfirewall",
-        "headers": {
-          "Host": "www.nireus.cc"
-        }
-      }
-    },
-    {
-      "tag": "cf18",
-      "type": "vless",
-      "server": "104.18.0.0",
-      "server_port": 8443,
-      "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
-      "tls": {
-        "enabled": true,
-        "server_name": "www.nireus.cc"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/greatfirewall",
-        "headers": {
-          "Host": "www.nireus.cc"
-        }
-      }
-    },
-    {
-      "tag": "cf19",
-      "type": "vless",
-      "server": "104.19.0.0",
+      "server": "www.nireus.cc",
       "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
