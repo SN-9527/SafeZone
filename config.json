@@ -5,31 +5,21 @@
   "dns": {
     "servers": [
       {
-        "tag": "dns4world",
-        "address": "https://unfiltered.joindns4.eu/dns-query",
-        "address_resolver": "resolver",
-        "detour": "direct",
-        "strategy": "ipv4_only"
+        "tag": "dns_proxy",
+        "address": "8.8.8.8",
+        "detour": "proxy"
       },
       {
-        "tag": "dns4china",
-        "address": "https://doh.18bit.cn/dns-query",
-        "address_resolver": "resolver",
-        "detour": "direct",
-        "strategy": "ipv4_only"
+        "tag": "dns_direct",
+        "address": "223.5.5.5",
+        "detour": "direct"
       },
       {
-        "tag": "resolver",
-        "address": "tls://223.5.5.5",
-        "detour": "direct",
-        "strategy": "ipv4_only"
-      },
-      {
-        "tag": "refused",
+        "tag": "dns_refused",
         "address": "rcode://refused"
       },
       {
-        "tag": "fakeip",
+        "tag": "dns_fakeip",
         "address": "fakeip"
       }
     ],
@@ -40,7 +30,7 @@
           "icloud.com",
           "nireus.cc"
         ],
-        "server": "resolver"
+        "server": "dns_direct"
       },
       {
         "rule_set": "geosite-!cn",
@@ -48,14 +38,14 @@
           "A",
           "AAAA"
         ],
-        "server": "fakeip"
+        "server": "dns_fakeip"
       },
       {
         "rule_set": "geosite-!cn",
         "query_type": [
           "CNAME"
         ],
-        "server": "dns4world"
+        "server": "dns_proxy"
       },
       {
         "query_type": [
@@ -64,16 +54,17 @@
           "CNAME"
         ],
         "invert": true,
-        "server": "refused",
+        "server": "dns_refused",
         "action": "route-options",
         "disable_cache": true
       }
     ],
     "fakeip": {
       "enabled": true,
-      "inet4_range": "198.18.0.0/15"
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
     },
-    "final": "dns4china",
+    "final": "dns_direct",
     "independent_cache": true,
     "disable_cache": false,
     "disable_expire": false
@@ -83,7 +74,8 @@
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "172.16.0.1/30"
+        "172.16.0.1/30",
+        "fd00::1/126"
       ],
       "mtu": 1500,
       "auto_route": true,
