@@ -21,7 +21,8 @@
       {
         "tag": "resolver",
         "address": "tls://223.5.5.5",
-        "detour": "direct"
+        "detour": "direct",
+        "strategy": "ipv4_only"
       },
       {
         "tag": "refused",
@@ -70,8 +71,7 @@
     ],
     "fakeip": {
       "enabled": true,
-      "inet4_range": "198.18.0.0/15",
-      "inet6_range": "fc00::/18"
+      "inet4_range": "198.18.0.0/15"
     },
     "final": "dns4china",
     "independent_cache": true,
@@ -83,8 +83,7 @@
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "172.16.0.1/30",
-        "fd00::1/126"
+        "172.16.0.1/30"
       ],
       "mtu": 1500,
       "auto_route": true,
