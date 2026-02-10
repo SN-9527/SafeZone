@@ -62,33 +62,33 @@
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
         "enabled": true,
-        "server_name": "racknerd.nireus.cc",
+        "server_name": "ai.nireus.cc",
         "insecure": false
       },
       "transport": {
         "type": "ws",
         "path": "/b397cb73-d299-41f0-967b-1e930a01a9c3",
         "headers": {
-          "Host": "racknerd.nireus.cc"
+          "Host": "ai.nireus.cc"
         }
       }
     },
     {
       "tag": "cfporxy",
       "type": "vless",
-      "server": "cloudflare.nireus.cc",
+      "server": "cc.nireus.cc",
       "server_port": 443,
       "uuid": "5ad5db6d-baaf-45c2-806a-989325d66404",
       "tls": {
         "enabled": true,
-        "server_name": "cloudflare.nireus.cc",
+        "server_name": "cc.nireus.cc",
         "insecure": false
       },
       "transport": {
         "type": "ws",
         "path": "/9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
         "headers": {
-          "Host": "cloudflare.nireus.cc"
+          "Host": "cc.nireus.cc"
         }
       }
     },
