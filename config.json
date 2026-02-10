@@ -13,14 +13,6 @@
         "tag": "dns_direct",
         "address": "223.5.5.5",
         "detour": "direct"
-      },
-      {
-        "tag": "dns_refused",
-        "address": "rcode://refused"
-      },
-      {
-        "tag": "dns_fakeip",
-        "address": "fakeip"
       }
     ],
     "rules": [
@@ -28,43 +20,21 @@
         "domain_suffix": [
           "apple.com",
           "icloud.com",
-          "nireus.cc"
+          "nireus.cc",
+          "cloudflare.com"
         ],
         "server": "dns_direct"
       },
       {
         "rule_set": "geosite-!cn",
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "server": "dns_fakeip"
-      },
-      {
-        "rule_set": "geosite-!cn",
-        "query_type": [
-          "CNAME"
-        ],
         "server": "dns_proxy"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA",
-          "CNAME"
-        ],
-        "invert": true,
-        "server": "dns_refused",
-        "action": "route-options",
-        "disable_cache": true
+        "rule_set": "geosite-cn",
+        "server": "dns_direct"
       }
     ],
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/15",
-      "inet6_range": "fc00::/18"
-    },
-    "final": "dns_direct",
+    "final": "dns_proxy",
     "independent_cache": true,
     "disable_cache": false,
     "disable_expire": false
@@ -87,19 +57,19 @@
     {
       "tag": "proxy",
       "type": "vless",
-      "server": "www.nireus.cc",
+      "server": "104.16.0.0",
       "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
         "enabled": true,
-        "server_name": "www.nireus.cc",
+        "server_name": "racknerd.nireus.cc",
         "insecure": false
       },
       "transport": {
         "type": "ws",
-        "path": "/greatfirewall",
+        "path": "/",
         "headers": {
-          "Host": "www.nireus.cc"
+          "Host": "racknerd.nireus.cc"
         }
       }
     },
@@ -128,22 +98,21 @@
         "action": "reject"
       },
       {
-        "rule_set": [
-          "geosite-ads"
-        ],
-        "action": "reject"
-      },
-      {
         "domain_suffix": [
           "apple.com",
           "icloud.com",
-          "nireus.cc"
+          "nireus.cc",
+          "cloudflare.com"
         ],
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-!cn",
         "outbound": "proxy"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "outbound": "direct"
       },
       {
         "rule_set": "geoip-cn",
@@ -156,17 +125,17 @@
     ],
     "rule_set": [
       {
-        "tag": "geosite-ads",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads.srs",
-        "download_detour": "proxy"
-      },
-      {
         "tag": "geosite-!cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-geolocation-!cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-cn.srs",
         "download_detour": "proxy"
       },
       {
