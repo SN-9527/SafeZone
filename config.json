@@ -67,7 +67,7 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/",
+        "path": "/b397cb73-d299-41f0-967b-1e930a01a9c3",
         "headers": {
           "Host": "racknerd.nireus.cc"
         }
