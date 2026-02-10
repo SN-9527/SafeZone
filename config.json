@@ -74,6 +74,25 @@
       }
     },
     {
+      "tag": "cfporxy",
+      "type": "vless",
+      "server": "cloudflare.nireus.cc",
+      "server_port": 443,
+      "uuid": "5ad5db6d-baaf-45c2-806a-989325d66404",
+      "tls": {
+        "enabled": true,
+        "server_name": "cloudflare.nireus.cc",
+        "insecure": false
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
+        "headers": {
+          "Host": "cloudflare.nireus.cc"
+        }
+      }
+    },
+    {
       "tag": "direct",
       "type": "direct"
     }
@@ -107,6 +126,10 @@
         "outbound": "direct"
       },
       {
+        "rule_set": "geosite-google",
+        "outbound": "cfporxy"
+      },
+      {
         "rule_set": "geosite-!cn",
         "outbound": "proxy"
       },
@@ -129,6 +152,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-geolocation-!cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-google.srs",
         "download_detour": "proxy"
       },
       {
