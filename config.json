@@ -58,7 +58,7 @@
     {
       "tag": "proxy",
       "type": "vless",
-      "server": "9527.87879527.xyz",
+      "server": "104.16.0.0",
       "server_port": 8443,
       "uuid": "9dd1cfbe-f4e4-46ce-800b-c24bfdb5c790",
       "tls": {
