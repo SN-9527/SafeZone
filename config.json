@@ -1,17 +1,17 @@
 {
   "log": {
-    "level": "info"
+    "level": "warn"
   },
   "dns": {
     "servers": [
       {
         "tag": "dns_proxy",
-        "address": "8.8.8.8",
+        "address": "tls://8.8.8.8",
         "detour": "proxy"
       },
       {
         "tag": "dns_direct",
-        "address": "223.5.5.5",
+        "address": "tls://223.5.5.5",
         "detour": "direct"
       }
     ],
@@ -19,10 +19,7 @@
       {
         "domain_suffix": [
           "apple.com",
-          "icloud.com",
-          "nireus.cc",
-          "87879527.xyz",
-          "cloudflare.com"
+          "icloud.com"
         ],
         "server": "dns_direct"
       },
@@ -101,10 +98,7 @@
       {
         "domain_suffix": [
           "apple.com",
-          "icloud.com",
-          "nireus.cc",
-          "87879527.xyz",
-          "cloudflare.com"
+          "icloud.com"
         ],
         "outbound": "direct"
       },
